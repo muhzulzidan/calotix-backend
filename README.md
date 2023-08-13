@@ -1,10 +1,6 @@
 # Welcome to CaloTix Backend Side
 Please follow the steps below: 
 
-1. npm install
-2. npm install -g sequelize-cli
-3. sequelize db:migrate
-
 Create file .env
 - SERVER_PORT= 8080
 - DATABASE_USERNAME = 'your option'
@@ -13,5 +9,9 @@ Create file .env
 - DATABASE_HOST = 'localhost'
 - DATABASE = 'calotix'
 
-last step
-npm run start
+Package install
+1. npm install
+2. npm install -g sequelize-cli
+3. sequelize db:migrate
+4. npm run start
+
