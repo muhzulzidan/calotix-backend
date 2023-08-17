@@ -19,10 +19,12 @@
     "prettier": "latest"
   },
   "dependencies": {
+    "body-parser": "^1.20.2",
     "cors": "latest",
     "dotenv": "latest",
     "express": "latest",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.0",
     "sequelize": "^6.32.1"
   }

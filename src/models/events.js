@@ -17,14 +17,17 @@ module.exports = (sequelize, DataTypes) => {
       artist_name: DataTypes.STRING,
       region_id: DataTypes.INTEGER,
       venue: DataTypes.STRING,
-      event_date: DataTypes.STRING,
-      times: DataTypes.STRING,
+      start_date: DataTypes.DATE,
+      end_date: DataTypes.DATE,
+      start_time: DataTypes.STRING,
+      end_time: DataTypes.STRING,
       poster: DataTypes.STRING,
       description: DataTypes.TEXT,
     },
     {
       sequelize,
       modelName: 'Events',
+      timestamps: false,
     }
   );
   return Events;
