@@ -1,4 +1,4 @@
-const { Events, Tickets } = require('../models');
+const { Events } = require('../models');
 
 const createEvents = async (req, res) => {
   try {
@@ -43,13 +43,14 @@ const createEvents = async (req, res) => {
 
 const fetchEvents = async (req, res) => {
   const offsetPage = parseInt(req.query.page) || 1;
-  const perPage = 5;
+  const perPage = 10;
   try {
     const countRows = await Events.count();
     const response = await Events.findAll({
       order: [['id', 'DESC']],
       limit: perPage,
       offset: (offsetPage - 1) * perPage,
+      include: 'tickets',
     });
 
     res.status(200).send({
@@ -59,7 +60,7 @@ const fetchEvents = async (req, res) => {
     });
   } catch (error) {
     res.send({
-      message: 'Occured Error',
+      message: error,
     });
   }
 };
@@ -71,18 +72,12 @@ const detailEvents = async (req, res) => {
       where: {
         id: eventId,
       },
-    });
-
-    const dataTickets = await Tickets.findOne({
-      where: {
-        event_id: eventId,
-      },
+      include: 'tickets',
     });
 
     res.status(200).send({
       message: 'Detail event and ticket success fetching',
-      dataEvent: dataEvent,
-      dataTickets: dataTickets,
+      data: dataEvent,
     });
   } catch (error) {
     res.send({
