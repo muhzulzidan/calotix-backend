@@ -8,6 +8,7 @@ const { sequelize } = require('./models');
 
 const userRouter = require('./routes/users.router');
 const eventRouter = require('./routes/events.router');
+const ticketRouter = require('./routes/tickets.router');
 
 const app = express();
 
@@ -40,6 +41,7 @@ sequelize
 
 app.use('/api/user', userRouter);
 app.use('/api/events', eventRouter);
+app.use('/api/tickets', ticketRouter);
 app.use(express.static(path.join('public')));
 app.use('/uploads/poster', express.static(path.join('uploads/poster')));
 app.listen(process.env.SERVER_PORT || 3008, () => {
