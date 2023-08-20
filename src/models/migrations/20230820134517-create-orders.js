@@ -10,15 +10,12 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       event_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
       },
       user_id: {
-        allowNull: false,
         type: Sequelize.INTEGER,
       },
       subtotal: {
-        allowNull: false,
         type: Sequelize.INTEGER,
       },
       payment_status: {
