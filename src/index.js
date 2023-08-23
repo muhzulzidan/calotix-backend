@@ -9,13 +9,17 @@ const { sequelize } = require('./models');
 const userRouter = require('./routes/users.router');
 const eventRouter = require('./routes/events.router');
 const regionRouter = require('./routes/regions.router');
+const ticketRouter = require('./routes/tickets.router');
+const orderRouter = require('./routes/orders.router');
 
 const app = express();
+
 
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: true, credentials: true }));
+
 
 sequelize
   .authenticate()
@@ -38,10 +42,11 @@ sequelize
 //     },
 //   });
 // });
-
+app.use('/api/orders', orderRouter);
 app.use('/api/user', userRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/regions', regionRouter);
+app.use('/api/tickets', ticketRouter);
 app.use(express.static(path.join('public')));
 app.use('/uploads/poster', express.static(path.join('uploads/poster')));
 app.listen(process.env.SERVER_PORT || 3008, () => {
