@@ -9,13 +9,16 @@ const { sequelize } = require('./models');
 const userRouter = require('./routes/users.router');
 const eventRouter = require('./routes/events.router');
 const ticketRouter = require('./routes/tickets.router');
+const orderRouter = require('./routes/orders.router');
 
 const app = express();
+
 
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: true, credentials: true }));
+
 
 sequelize
   .authenticate()
@@ -38,7 +41,7 @@ sequelize
 //     },
 //   });
 // });
-
+app.use('/api/orders', orderRouter);
 app.use('/api/user', userRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/tickets', ticketRouter);
