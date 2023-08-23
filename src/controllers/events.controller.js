@@ -34,7 +34,7 @@ const createEvents = async (req, res) => {
     });
   } catch (error) {
     res.send({
-      message: 'Occured error',
+      message: 'Occured error  <create event>',
       data: error,
     });
     console.log(req.body, req.file);

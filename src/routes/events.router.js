@@ -20,8 +20,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-router.post('/create', upload.single('poster'), createEvents);
+router.post('/create',upload.single('poster'), createEvents);
 router.get('/fetch', fetchEvents);
 router.get('/detail/:eventId', detailEvents);
 
 module.exports = router;
+
+
+// 
