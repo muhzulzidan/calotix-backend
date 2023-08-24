@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order_Bridges.init(
     {
-      order_id: DataTypes.INTEGER,
+      order_id: DataTypes.STRING,
       ticket_id: DataTypes.INTEGER,
       quantity: DataTypes.INTEGER,
     },
@@ -21,7 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Order_Bridges',
       timestamps: false,
+      freezeTableName: true,
+      underscored: true,
     }
   );
+  Order_Bridges.removeAttribute('id');
   return Order_Bridges;
 };

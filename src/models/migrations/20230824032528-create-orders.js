@@ -7,28 +7,19 @@ module.exports = {
         allowNull: false,
         autoIncrement: false,
         primaryKey: true,
+        type: Sequelize.STRING(20),
+      },
+      user_id: {
         type: Sequelize.INTEGER,
       },
       event_id: {
         type: Sequelize.INTEGER,
       },
-      user_id: {
-        type: Sequelize.INTEGER,
-      },
-      subtotal: {
+      amount: {
         type: Sequelize.INTEGER,
       },
       payment_status: {
-        type: Sequelize.STRING(20),
-        defaultValue: 'PENDING',
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.STRING(25),
       },
     });
   },
