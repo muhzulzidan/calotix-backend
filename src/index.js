@@ -8,6 +8,7 @@ const { sequelize } = require('./models');
 
 const userRouter = require('./routes/users.router');
 const eventRouter = require('./routes/events.router');
+const regionRouter = require('./routes/regions.router');
 const ticketRouter = require('./routes/tickets.router');
 const orderRouter = require('./routes/orders.router');
 
@@ -44,6 +45,7 @@ sequelize
 app.use('/api/orders', orderRouter);
 app.use('/api/user', userRouter);
 app.use('/api/events', eventRouter);
+app.use('/api/regions', regionRouter);
 app.use('/api/tickets', ticketRouter);
 app.use(express.static(path.join('public')));
 app.use('/uploads/poster', express.static(path.join('uploads/poster')));
