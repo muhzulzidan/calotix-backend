@@ -8,6 +8,7 @@ const { sequelize } = require('./models');
 
 const userRouter = require('./routes/users.router');
 const eventRouter = require('./routes/events.router');
+const regionRouter = require('./routes/regions.router');
 const ticketRouter = require('./routes/tickets.router');
 const orderRouter = require('./routes/orders.router');
 const midtransRouter = require('./routes/midtrans.router');
@@ -43,6 +44,7 @@ sequelize
 app.use('/api/orders', orderRouter);
 app.use('/api/user', userRouter);
 app.use('/api/events', eventRouter);
+app.use('/api/regions', regionRouter);
 app.use('/api/tickets', ticketRouter);
 app.use('/api/midtrans-webhook', midtransRouter);
 app.use(express.static(path.join('public')));
