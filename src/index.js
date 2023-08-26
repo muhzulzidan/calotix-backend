@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
+const serverPort = process.env.SERVER_PORT || 3008;
 
 const { sequelize } = require('./models');
 
@@ -11,15 +12,14 @@ const eventRouter = require('./routes/events.router');
 const regionRouter = require('./routes/regions.router');
 const ticketRouter = require('./routes/tickets.router');
 const orderRouter = require('./routes/orders.router');
+const midtransRouter = require('./routes/midtrans.router');
 
 const app = express();
-
 
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: true, credentials: true }));
-
 
 sequelize
   .authenticate()
@@ -47,9 +47,9 @@ app.use('/api/user', userRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/regions', regionRouter);
 app.use('/api/tickets', ticketRouter);
+app.use('/api/midtrans-webhook', midtransRouter);
 app.use(express.static(path.join('public')));
 app.use('/uploads/poster', express.static(path.join('uploads/poster')));
-app.listen(process.env.SERVER_PORT || 3008, () => {
-  console.log('Server Running');
-  console.log(__dirname);
+app.listen(serverPort, () => {
+  console.log('Server Running ' + serverPort);
 });

@@ -9,26 +9,26 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Orders.belongsTo(models.Events, {
+        foreignKey: 'event_id',
+        as: 'event',
+      });
+      this.belongsTo(models.Regions, {
+        foreignKey: 'region_id',
+        as: 'region',
+      });
     }
   }
   Orders.init(
     {
       user_id: DataTypes.INTEGER,
       event_id: DataTypes.INTEGER,
-      total_amount: DataTypes.INTEGER,
-      order_date: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      payment_status: {
-        type: DataTypes.STRING(20),
-        defaultValue: 'PENDING',
-      },
+      amount: DataTypes.INTEGER,
+      payment_status: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: 'Orders',
-      timestamps: false, // Disable timestamps for the Orders model
     }
   );
   return Orders;

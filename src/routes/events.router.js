@@ -7,7 +7,6 @@ const expres = require('express');
 const router = expres.Router();
 const multer = require('multer');
 const path = require('path');
-const uploadDir = `${process.cwd()}/uploads/poster`;
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/poster'); // Folder penyimpanan gambar
