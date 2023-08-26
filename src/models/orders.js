@@ -9,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Orders.belongsTo(models.Events, {
+        foreignKey: 'event_id',
+        as: 'event',
+      });
+      this.belongsTo(models.Regions, {
+        foreignKey: 'region_id',
+        as: 'region',
+      });
     }
   }
   Orders.init(

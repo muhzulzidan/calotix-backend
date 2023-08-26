@@ -1,4 +1,4 @@
-const { Events } = require('../models');
+const { Events, Tickets, Regions } = require('../models');
 
 const createEvents = async (req, res) => {
   try {
@@ -34,7 +34,7 @@ const createEvents = async (req, res) => {
     });
   } catch (error) {
     res.send({
-      message: 'Occured error  <create event>',
+      message: 'Occured error',
       data: error,
     });
     console.log(req.body, req.file);
@@ -50,7 +50,16 @@ const fetchEvents = async (req, res) => {
       order: [['id', 'DESC']],
       limit: perPage,
       offset: (offsetPage - 1) * perPage,
-      include: 'tickets',
+      include: [
+        {
+          model: Regions,
+          as: 'regions',
+        },
+        {
+          model: Tickets,
+          as: 'tickets',
+        },
+      ],
     });
 
     res.status(200).send({

@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Events.belongsTo(models.Regions, {
+        // Menambahkan relasi belongsTo
+        foreignKey: 'region_id',
+        as: 'regions', // Alias yang digunakan saat melakukan eager loading
+      });
+
       Events.hasMany(models.Tickets, {
         foreignKey: 'event_id', // Nama kolom yang menghubungkan
         as: 'tickets', // Alias yang digunakan saat melakukan eager loading

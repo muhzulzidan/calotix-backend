@@ -1,4 +1,4 @@
-const { Orders, Order_Bridges } = require('../models');
+const { Orders, Order_Bridges, Regions, Events } = require('../models');
 const axios = require('axios');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
@@ -86,14 +86,45 @@ const getAllOrder = async (req, res) => {
 const getOrderById = async (req, res) => {
   const { order_id } = req.params;
   try {
-    const order = await Orders.findByPk(order_id);
+    const order = await Orders.findByPk(order_id, {
+      include: {
+        model: Events,
+        as: 'event',
+        include: {
+          model: Regions,
+          as: 'region',
+        },
+      },
+    });
     if (!order) {
       res.status(404).json({ error: 'Order not found' });
     } else {
-      res.status(200).json(order);
+      const statusMidtrans = await axios.get(
+        `https://api.sandbox.midtrans.com/v2/${order_id}/status`,
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(
+              process.env.MIDTRANS_SERVER_KEY
+            ).toString('base64')}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const { id, amount, createdAt, event } = await order;
+      const { va_numbers } = await statusMidtrans.data;
+      const { bank, va_number } = va_numbers[0];
+      res.status(200).json({
+        id,
+        amount,
+        bank,
+        va_number,
+        createdAt,
+        event,
+      });
     }
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
+    console.log(error);
   }
 };
 

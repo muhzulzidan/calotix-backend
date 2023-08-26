@@ -3,8 +3,7 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
   try {
-    const { body } = req;
-    console.log('Received webhook data:', body);
+    console.log('Received webhook data:', req.body);
 
     // Proses dan perbarui status pembayaran di database Anda
     // Misalnya, Anda bisa menggunakan informasi dari body untuk mencari transaksi yang sesuai dan memperbarui statusnya.

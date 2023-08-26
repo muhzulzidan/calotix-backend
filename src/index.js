@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
+const serverPort = process.env.SERVER_PORT || 3008;
 
 const { sequelize } = require('./models');
 
@@ -49,7 +50,6 @@ app.use('/api/tickets', ticketRouter);
 app.use('/api/midtrans-webhook', midtransRouter);
 app.use(express.static(path.join('public')));
 app.use('/uploads/poster', express.static(path.join('uploads/poster')));
-app.listen(process.env.SERVER_PORT || 3008, () => {
-  console.log('Server Running');
-  console.log(__dirname);
+app.listen(serverPort, () => {
+  console.log('Server Running ' + serverPort);
 });
