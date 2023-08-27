@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Order_Bridges.belongsTo(models.Tickets, {
+        foreignKey: 'ticket_id',
+        as: 'ticket',
+      });
     }
   }
   Order_Bridges.init(

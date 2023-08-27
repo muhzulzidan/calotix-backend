@@ -1,4 +1,10 @@
-const { Orders, Order_Bridges, Regions, Events } = require('../models');
+const {
+  Orders,
+  Order_Bridges,
+  Regions,
+  Events,
+  Tickets,
+} = require('../models');
 const axios = require('axios');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
@@ -50,6 +56,12 @@ const create = async (req, res) => {
       }
     );
 
+    if (response.status === 400) {
+      res.send({
+        message: 'Gagal di midtrans',
+      });
+    }
+
     const order = await Orders.create({
       id: orderId,
       event_id: parseInt(eventId),
@@ -68,8 +80,10 @@ const create = async (req, res) => {
 
     res.status(200).send({
       message: 'Checkout Success',
+      orderId: response.data.order_id,
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -87,14 +101,30 @@ const getOrderById = async (req, res) => {
   const { order_id } = req.params;
   try {
     const order = await Orders.findByPk(order_id, {
-      include: {
-        model: Events,
-        as: 'event',
-        include: {
-          model: Regions,
-          as: 'region',
+      include: [
+        {
+          model: Events,
+          as: 'event',
+          include: [
+            {
+              model: Regions,
+              as: 'region',
+            },
+          ],
         },
+      ],
+    });
+    const orderBridges = await Order_Bridges.findAll({
+      where: {
+        order_id,
       },
+      include: [
+        {
+          model: Tickets,
+          as: 'ticket',
+          attributes: ['category'],
+        },
+      ],
     });
     if (!order) {
       res.status(404).json({ error: 'Order not found' });
@@ -120,6 +150,7 @@ const getOrderById = async (req, res) => {
         va_number,
         createdAt,
         event,
+        orderBridges,
       });
     }
   } catch (error) {
