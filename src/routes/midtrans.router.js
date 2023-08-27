@@ -1,9 +1,31 @@
 const express = require('express');
 const router = express.Router();
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ noServer: true });
+
+// Store WebSocket clients
+const clients = [];
+
+wss.on('connection', (ws) => {
+  console.log('WebSocket client connected');
+  clients.push(ws);
+
+  ws.on('close', () => {
+    console.log('WebSocket client disconnected');
+    clients.splice(clients.indexOf(ws), 1);
+  });
+});
 
 router.post('/', (req, res) => {
   try {
-    console.log('Received webhook data:', req.body);
+    const transactions = req.body;
+    if (transactions) {
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: 'notification', transactions }));
+        }
+      });
+    }
 
     // Proses dan perbarui status pembayaran di database Anda
     // Misalnya, Anda bisa menggunakan informasi dari body untuk mencari transaksi yang sesuai dan memperbarui statusnya.

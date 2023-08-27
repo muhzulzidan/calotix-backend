@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'event_id',
         as: 'event',
       });
-      this.belongsTo(models.Regions, {
+      models.Events.belongsTo(models.Regions, {
         foreignKey: 'region_id',
         as: 'region',
       });
